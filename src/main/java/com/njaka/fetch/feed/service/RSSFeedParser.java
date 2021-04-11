@@ -12,12 +12,9 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
-import org.springframework.stereotype.Service;
-
 import com.njaka.fetch.entity.Feed;
 import com.njaka.fetch.entity.FeedMessage;
 
-@Service
 public class RSSFeedParser {
 	static final String TITLE = "title";
 	static final String DESCRIPTION = "description";
