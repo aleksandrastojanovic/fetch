@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.njaka.fetch.entity.Feed;
 import com.njaka.fetch.entity.FeedMessage;
 import com.njaka.fetch.feed.dao.FeedMessageRepository;
 
@@ -42,9 +43,33 @@ public class FeedMessageServiceImpl implements FeedMessageService {
 
 	}
 
+	public void save(String channel) {
+		String url = getUrl(channel);
+		RSSFeedParser rssFeedParser = new RSSFeedParser(url);
+		Feed feed = rssFeedParser.readFeed();
+		List<FeedMessage> messages = feed.getMessages();
+		for (FeedMessage message : messages) {
+			feedMessageRepository.save(message);
+		}
+	}
+
 	public void deleteById(int id) {
 		feedMessageRepository.deleteById(id);
 
 	}
 
+	private String getUrl(String channel) {
+		String url = "";
+		switch (channel) {
+		case "n1":
+			url = "https://rs-8nqof7qzeod2et99kimwqegbnmsmjnby.n1info.com/feed/";
+			break;
+		case "blic":
+			url = "https://www.blic.rs/rss/danasnje-vesti";
+			break;
+		default:
+			break;
+		}
+		return url;
+	}
 }
