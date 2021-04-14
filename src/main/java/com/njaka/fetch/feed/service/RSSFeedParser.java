@@ -22,11 +22,11 @@ public class RSSFeedParser {
 	static final String LANGUAGE = "language";
 	static final String COPYRIGHT = "copyright";
 	static final String LINK = "link";
-	static final String AUTHOR = "author";
+	// static final String AUTHOR = "author";
 	static final String ITEM = "item";
 	static final String PUB_DATE = "pubDate";
 	static final String GUID = "guid";
-	static final String SOURCE = "source";
+	static final String ENCODED = "encoded";
 
 	final URL url;
 
@@ -48,10 +48,10 @@ public class RSSFeedParser {
 			String link = "";
 			String language = "";
 			String copyright = "";
-			String author = "";
+			// String author = "";
 			String pubdate = "";
 			String guid = "";
-			String source = "";
+			String encoded = "";
 
 			// First create a new XMLInputFactory
 			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -87,28 +87,30 @@ public class RSSFeedParser {
 					case LANGUAGE:
 						language = getCharacterData(event, eventReader);
 						break;
-					case AUTHOR:
-						author = getCharacterData(event, eventReader);
-						break;
+					// case AUTHOR:
+					// author = getCharacterData(event, eventReader);
+					// break;
 					case PUB_DATE:
 						pubdate = getCharacterData(event, eventReader);
 						break;
-					case SOURCE:
-						source = getCharacterData(event, eventReader);
-						break;
+
 					case COPYRIGHT:
 						copyright = getCharacterData(event, eventReader);
+						break;
+					case ENCODED:
+						encoded = getCharacterData(event, eventReader);
 						break;
 					}
 				} else if (event.isEndElement()) {
 					if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
 						FeedMessage message = new FeedMessage();
-						message.setAuthor(author);
+						// message.setAuthor(author);
 						message.setDescription(description);
 						message.setGuid(guid);
 						message.setLink(link);
 						message.setTitle(title);
-						message.setSource(source);
+						message.setImg(getImgUrl(encoded));
+						message.setPubDate(pubdate);
 						feed.getMessages().add(message);
 						event = eventReader.nextEvent();
 						continue;
@@ -151,6 +153,30 @@ public class RSSFeedParser {
 			// String error = e.toString();
 			throw new RuntimeException(e.toString());
 		}
+	}
+
+	private String getImgUrl(String encoded) {
+		String img = "";
+
+		if (encoded.startsWith("<img>")) {
+			int firstPosition = encoded.indexOf("<img>");
+			String temp = encoded.substring(firstPosition);
+			temp = temp.replace("<img>", "");
+			int lastPosition = temp.indexOf("</img>");
+			temp = temp.substring(0, lastPosition);
+			temp = temp.replace("</img>", "");
+			img += temp + "\n";
+		} else if (encoded.startsWith("<img src=\"")) {
+			int firstPosition = encoded.indexOf("<img src=\"");
+			String temp = encoded.substring(firstPosition);
+			temp = temp.replace("<img src=\"", "");
+			int lastPosition = temp.indexOf("\"");
+			temp = temp.substring(0, lastPosition);
+			temp = temp.replace("\"", "");
+			img += temp + "\n";
+		}
+
+		return img;
 	}
 
 	@Override

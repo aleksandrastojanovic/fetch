@@ -30,28 +30,41 @@ public class FeedMessage {
 	@Column(name = "link")
 	private String link;
 
-	@Column(name = "author")
-	private String author;
+	// @Column(name = "author")
+	// private String author;
 
 	@Column(name = "guid")
 	private String guid;
 
-	@Column(name = "source")
-	private String source;
+	@Lob
+	@Column(name = "img")
+	private String img;
+
+	@Column(name = "pub_date")
+	private String pubDate;
 
 	public FeedMessage() {
 
 	}
 
 	public FeedMessage(String title, String description, String link,
-			String author, String guid, String source) {
+			String guid, String img, String pubDate) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.link = link;
-		this.author = author;
+		// this.author = author;
 		this.guid = guid;
-		this.source = source;
+		this.img = img;
+		this.pubDate = pubDate;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	public String getTitle() {
@@ -78,13 +91,13 @@ public class FeedMessage {
 		this.link = link;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+	// public String getAuthor() {
+	// return author;
+	// }
+	//
+	// public void setAuthor(String author) {
+	// this.author = author;
+	// }
 
 	public String getGuid() {
 		return guid;
@@ -94,19 +107,18 @@ public class FeedMessage {
 		this.guid = guid;
 	}
 
-	public String getSource() {
-		return source;
+	public String getPubDate() {
+		return pubDate;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setPubDate(String pubDate) {
+		this.pubDate = pubDate;
 	}
 
 	@Override
 	public String toString() {
 		return "FeedMessage [title=" + title + ", description=" + description
-				+ ", link=" + link + ", author=" + author + ", guid=" + guid
-				+ ", source=" + source + "]";
+				+ ", link=" + link + ", guid=" + guid + "]";
 	}
 
 }
