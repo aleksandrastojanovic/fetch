@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.njaka.fetch.entity.Feed;
@@ -18,11 +20,6 @@ public class FeedMessageServiceImpl implements FeedMessageService {
 	@Autowired
 	public FeedMessageServiceImpl(FeedMessageRepository feedMessageRepository) {
 		this.feedMessageRepository = feedMessageRepository;
-	}
-
-	public List<FeedMessage> findAll() {
-
-		return feedMessageRepository.findAll();
 	}
 
 	public FeedMessage find(int id) {
@@ -49,7 +46,9 @@ public class FeedMessageServiceImpl implements FeedMessageService {
 		Feed feed = rssFeedParser.readFeed();
 		List<FeedMessage> messages = feed.getMessages();
 		for (FeedMessage message : messages) {
-			feedMessageRepository.save(message);
+			if (feedMessageRepository.findByGuid(message.getGuid()) == null) {
+				feedMessageRepository.save(message);
+			}
 		}
 	}
 
@@ -72,4 +71,10 @@ public class FeedMessageServiceImpl implements FeedMessageService {
 		}
 		return url;
 	}
+
+	@Override
+	public Page<FeedMessage> findAll(Pageable pageable) {
+		return feedMessageRepository.findAll(pageable);
+	}
+
 }
