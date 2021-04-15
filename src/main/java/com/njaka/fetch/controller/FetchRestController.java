@@ -28,10 +28,10 @@ public class FetchRestController {
 
 	}
 
-	// Retrieve feed messages from db
-	@RequestMapping(value = "/getFeed", method = RequestMethod.GET)
-	public Page<FeedMessage> getFeed() {
-		return feedMessageService.findPaginated(1, 18);
-	}
+//	// Retrieve feed messages from db
+//	@RequestMapping(value = "/getFeed", method = RequestMethod.GET)
+//	public Page<FeedMessage> getFeed() {
+//		return feedMessageService.findAll(pageable);
+//	}
 
 }
