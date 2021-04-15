@@ -1,4 +1,4 @@
-package com.njaka.fetch.rest;
+package com.njaka.fetch.controller;
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ import com.njaka.fetch.feed.service.FeedMessageService;
 
 @RestController
 @RequestMapping(value = "/")
-public class FetchController {
+public class FetchRestController {
 
 	private FeedMessageService feedMessageService;
 
 	@Autowired
-	public FetchController(FeedMessageService feedMessageService) {
+	public FetchRestController(FeedMessageService feedMessageService) {
 		this.feedMessageService = feedMessageService;
 	}
 
