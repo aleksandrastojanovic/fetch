@@ -26,12 +26,8 @@ public class FetchController {
 
 	@GetMapping("/home")
 	public String allNews(HttpServletRequest request, Model model) {
-		// Page<FeedMessage> feedMessages = feedMessageService.findPaginated(
-		// pageNo, 18);
-		// model.addAttribute("totalPages", feedMessages.getTotalPages());
-		// model.addAttribute("pageNo", 1);
-		// model.addAttribute("feedMessages", feedMessages);
-		int page = 0; // default page number is 0 (yes it is weird)
+
+		int page = 0; // default page number is 0 
 		int size = 9; // default page size is 10
 
 		if (request.getParameter("page") != null

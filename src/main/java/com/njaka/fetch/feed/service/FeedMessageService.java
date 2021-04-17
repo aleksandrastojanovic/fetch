@@ -11,9 +11,9 @@ public interface FeedMessageService {
 
 	public FeedMessage find(int id);
 
-	public void save(FeedMessage feedMessage);
-
-	public void save(String channel);
+//	public void save(FeedMessage feedMessage);
+//
+//	public void save(String channel);
 
 	public void deleteById(int id);
 
